@@ -1,63 +1,60 @@
-# LN Carbon Tracker
+# LN-Carbon-Tracker
 
-A full-stack hackathon project to calculate carbon emissions based on transportation.
+This project is a web application built using **Vite and React**.
+Vite provides a fast development environment and optimized build process for modern web applications.
 
-## Project Overview
-LN Carbon Tracker provides a simple web interface where users can input distance and vehicle type (car, van, or truck) to estimate their carbon emission per trip.
+## 🚀 Tech Stack
 
-## Tech Stack
-- **Frontend**: React (with Vite), JavaScript, and modern CSS
-- **Backend**: Python, FastAPI
-- **REST API architecture**
+* React
+* Vite
+* JavaScript
+* CSS
+* Python
 
-## Repository Structure
-```text
-LN-Carbon-Tracker/
-├── frontend/             # React application with Vite
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   └── package.json
-└── backend/              # Python FastAPI application
-    ├── app.py
-    ├── requirements.txt
-    ├── routes/
-    └── services/
+## 📦 Getting Started
+
+Clone the repository:
+
+```bash
+git clone https://github.com/TejasKanse23/LN-Carbon-Tracker.git
 ```
 
-## Setup Instructions
+Navigate to the project directory:
 
-### 1. Run the Backend
+```bash
+cd LN-Carbon-Tracker
+```
 
-1. Open a terminal and navigate to the `backend` folder:
-   ```bash
-   cd backend
-   ```
-2. Install Python dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Start the FastAPI server:
-   ```bash
-   uvicorn app:app --reload
-   ```
-   The backend will start at `http://localhost:8000`. You can check the health status by visiting `http://localhost:8000/health`.
+Install dependencies:
 
-### 2. Run the Frontend
+```bash
+npm install
+```
 
-1. Open another terminal and navigate to the `frontend` folder:
-   ```bash
-   cd frontend
-   ```
-2. Install Node dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the React development server:
-   ```bash
-   npm run dev
-   ```
-   The frontend will be available at `http://localhost:5173`. Open it in your browser to see the Dashboard and calculate carbon emissions!
+Run the development server:
+
+```bash
+npm run dev
+```
+
+The app will be available at:
+
+```
+http://localhost:5173
+```
+
+## 🏗 Build for Production
+
+```bash
+npm run build
+```
+
+## 🔧 Preview Production Build
+
+```bash
+npm run preview
+```
+
+---
+
+Built using **Vite + React** for fast and efficient frontend development.

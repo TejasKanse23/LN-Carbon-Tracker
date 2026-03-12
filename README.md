@@ -1,60 +1,23 @@
-# LN-Carbon-Tracker
+🚀 Full Project Startup Commands
+This project has 3 separate services that must each run in their own terminal.
 
-This project is a web application built using **Vite and React**.
-Vite provides a fast development environment and optimized build process for modern web applications.
-
-## 🚀 Tech Stack
-
-* React
-* Vite
-* JavaScript
-* CSS
-* Python
-
-## 📦 Getting Started
-
-Clone the repository:
-
-```bash
-git clone https://github.com/TejasKanse23/LN-Carbon-Tracker.git
-```
-
-Navigate to the project directory:
-
-```bash
-cd LN-Carbon-Tracker
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Run the development server:
-
-```bash
+Terminal 1 — 🖥️ Frontend (React + Vite)
+powershell
+cd c:\Users\logis\Desktop\LN-Carbon-Tracker\frontend
 npm run dev
-```
+➡️ Runs at: http://localhost:5173
 
-The app will be available at:
+Terminal 2 — ⚙️ Backend (Node.js / Express)
+powershell
+cd c:\Users\logis\Desktop\LN-Carbon-Tracker\backend
+node server.js
+➡️ Runs at: http://localhost:3000 (or whatever port is set in 
 
-```
-http://localhost:5173
-```
+server.js
+)
 
-## 🏗 Build for Production
-
-```bash
-npm run build
-```
-
-## 🔧 Preview Production Build
-
-```bash
-npm run preview
-```
-
----
-
-Built using **Vite + React** for fast and efficient frontend development.
+Terminal 3 — 🤖 AI Agent (Streamlit)
+powershell
+cd c:\Users\logis\Desktop\LN-Carbon-Tracker\carbon_tracker_agent
+streamlit run app.py
+➡️ Runs at: http://localhost:8502

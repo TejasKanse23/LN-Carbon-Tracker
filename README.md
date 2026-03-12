@@ -9,6 +9,7 @@ Vite provides a fast development environment and optimized build process for mod
 * Vite
 * JavaScript
 * CSS
+* Python
 
 ## 📦 Getting Started
 

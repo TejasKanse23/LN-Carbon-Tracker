@@ -1,8 +1,14 @@
 import joblib
 import pandas as pd
 
+import os
+
+# Get path relative to this script
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+MODEL_PATH = os.path.join(BASE_DIR, "models", "carbon_emission_model.pkl")
+
 # Load model once
-model = joblib.load("models/carbon_emission_model.pkl")
+model = joblib.load(MODEL_PATH)
 
 def predict(data: dict):
 

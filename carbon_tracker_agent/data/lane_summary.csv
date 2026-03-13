@@ -1,9 +1,0 @@
-lane,shipment_count,total_emissions,average_emissions,average_utilization,hotspot_tag,recommendation_summary
-Ahmedabad - Jaipur,25,13156.2,526.248,75.308,Monitor,Maintain current efficiency.
-Bangalore - Chennai,24,8369.8,348.7416666666666,71.55,Monitor,Maintain current efficiency.
-Chennai - Hyderabad,21,8812.4,419.6380952380952,77.00952380952381,Monitor,Maintain current efficiency.
-Delhi - Lucknow,23,9012.0,391.82608695652175,74.3913043478261,Monitor,Maintain current efficiency.
-Mumbai - Delhi,30,31161.7,1038.7233333333334,70.88333333333334,High Risk,Shift to EV/CNG or optimize routing.
-Nagpur - Mumbai,29,16141.8,556.6137931034483,69.88620689655173,High Risk,Shift to EV/CNG or optimize routing.
-Pune - Bangalore,22,15498.7,704.4863636363636,69.51363636363637,Monitor,Maintain current efficiency.
-Surat - Indore,26,8365.2,321.7384615384616,67.78076923076922,Monitor,Maintain current efficiency.

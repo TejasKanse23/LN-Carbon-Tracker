@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import { Activity, Leaf, Truck, AlertTriangle } from 'lucide-react';
-import axios from 'axios';
 import CarbonCalculator from '../components/CarbonCalculator';
+import LaneReportGenerator from '../components/LaneReportGenerator';
+import ForecastingComponent from '../components/ForecastingComponent';
+import { fetchDashboard } from '../services/api';
 
 const Dashboard = () => {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        const fetchDashboard = async () => {
+        const loadDashboard = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/carbon/dashboard');
-                setData(res.data);
+                const result = await fetchDashboard();
+                setData(result);
             } catch (err) {
                 console.error("Failed to fetch dashboard data", err);
             }
         };
-        fetchDashboard();
+        loadDashboard();
     }, []);
 
     if (!data) return <div className="app-container"><h2 style={{color: 'var(--accent-blue)'}}>Initializing AI Engine...</h2></div>;
@@ -139,6 +141,10 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
+
+            <LaneReportGenerator />
+            
+            <ForecastingComponent />
             
         </div>
     );

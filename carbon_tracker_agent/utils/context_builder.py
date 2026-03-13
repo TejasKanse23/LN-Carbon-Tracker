@@ -9,6 +9,14 @@ def build_context(df: pd.DataFrame, lane_df: pd.DataFrame) -> str:
     for k, v in kpis.items():
         context_lines.append(f"{k}: {v}")
         
+    context_lines.append("\n--- DATA RANGE ---")
+    if 'date' in df.columns and not df.empty:
+        earliest = df['date'].min().strftime('%Y-%m-%d')
+        latest = df['date'].max().strftime('%Y-%m-%d')
+        context_lines.append(f"Shipment data available from {earliest} to {latest}")
+    else:
+        context_lines.append("Date range not available in dataset.")
+        
     context_lines.append("\n--- LANE SUMMARIES (Top 5 by Emissions) ---")
     top_lanes = lane_df.sort_values("total_emissions", ascending=False).head(5)
     for _, row in top_lanes.iterrows():

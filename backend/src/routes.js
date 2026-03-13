@@ -1,6 +1,13 @@
 import express from "express";
 import { calculateEmission } from "./engine.js";
 import { generateShipments, generateLaneAnalytics } from "./mockData.js";
+import { exec } from "child_process";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
@@ -77,5 +84,97 @@ router.post("/optimize", (req, res) => {
             : "Current route is heavily optimized already."
     });
 });
+
+// Generate Lane Carbon Report
+router.post("/report/generate", (req, res) => {
+    const { origin, destination } = req.body;
+    if (!origin || !destination) {
+        return res.status(400).json({ error: "Missing origin or destination" });
+    }
+
+    const scriptPath = path.join(__dirname, "..", "generate_report.py");
+    const command = `python "${scriptPath}" --origin "${origin}" --dest "${destination}"`;
+
+    exec(command, (error, stdout, stderr) => {
+        if (error) {
+            console.error("Error executing Python script:", error);
+            console.error(stderr);
+            return res.status(500).json({ error: "Failed to generate report" });
+        }
+
+        try {
+            const reportData = JSON.parse(stdout.trim());
+            if (reportData.error) {
+                return res.status(404).json({ error: reportData.error });
+            }
+            res.json(reportData);
+        } catch (parseError) {
+            console.error("Failed to parse Python output:", parseError);
+            console.error("Output was:", stdout);
+            res.status(500).json({ error: "Failed to parse report generation output" });
+        }
+    });
+});
+
+// Download Generated Word Document
+router.get("/report/download", (req, res) => {
+    const { file } = req.query;
+    if (!file) {
+        return res.status(400).send("No file specified");
+    }
+    
+    // Ensure the file exists and is within the reports directory
+    const repoReportPath = path.join(__dirname, "..", "reports");
+    const parsedPath = path.parse(file);
+    const absolutePath = path.join(repoReportPath, parsedPath.base); // Secure against path traversal
+
+    if (!fs.existsSync(absolutePath)) {
+        return res.status(404).send("File not found");
+    }
+
+    // Attempt to download the file
+    res.download(absolutePath, parsedPath.base, (err) => {
+        if (err) {
+            console.error("Error downloading file:", err);
+            // Error header sent check
+            if (!res.headersSent) {
+                res.status(500).send("Error downloading file");
+            }
+        }
+    });
+});
+
+// Generate Lane Forecast
+router.post("/forecast/generate", (req, res) => {
+    const { origin, destination, horizon } = req.body;
+    if (!origin || !destination) {
+        return res.status(400).json({ error: "Missing origin or destination" });
+    }
+
+    const scriptPath = path.join(__dirname, "..", "generate_forecast.py");
+    const hrz = horizon || 6;
+    const command = `python "${scriptPath}" --origin "${origin}" --dest "${destination}" --horizon ${hrz}`;
+
+    exec(command, (error, stdout, stderr) => {
+        if (error) {
+            console.error("Error executing Python script:", error);
+            console.error(stderr);
+            return res.status(500).json({ error: "Failed to generate forecast" });
+        }
+
+        try {
+            const reportData = JSON.parse(stdout.trim());
+            if (reportData.error) {
+                return res.status(404).json({ error: reportData.error });
+            }
+            res.json(reportData);
+        } catch (parseError) {
+            console.error("Failed to parse Python output:", parseError);
+            console.error("Output was:", stdout);
+            res.status(500).json({ error: "Failed to parse forecast generation output" });
+        }
+    });
+});
+
 
 export default router;

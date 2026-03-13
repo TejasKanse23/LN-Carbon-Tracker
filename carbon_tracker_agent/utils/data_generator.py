@@ -57,7 +57,7 @@ def generate_mock_data(num_records=100, output_dir="data"):
         })
         
     df = pd.DataFrame(records)
-    df.to_csv(f"{output_dir}/shipments.csv", index=False)
+    df.to_csv(f"{output_dir}/carbon_tracker_shipments.csv", index=False)
     
     # Generate Lane Summaries
     lane_summary = df.groupby("lane").agg(
@@ -79,6 +79,6 @@ def generate_mock_data(num_records=100, output_dir="data"):
         return "Maintain current efficiency."
         
     lane_summary["recommendation_summary"] = lane_summary.apply(get_rec, axis=1)
-    lane_summary.to_csv(f"{output_dir}/lane_summary.csv", index=False)
+    lane_summary.to_csv(f"{output_dir}/carbon_tracker_lane_summary.csv", index=False)
     
     return df, lane_summary

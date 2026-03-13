@@ -1,112 +1,46 @@
-🌱 LN Carbon Tracker
+Here is the complete guide to running the LN Carbon Tracker project from start to finish.
 
-A full-stack carbon emissions tracking platform with an AI assistant that helps users analyze and understand their carbon footprint.
+📋 Full Project Execution Guide
+The project consists of multiple services that work together. To run the full ecosystem, you need to start four separate processes. I have created a detailed guide as an artifact for your reference.
 
-The project consists of three services:
+running_guide.md
 
-🖥️ Frontend – React + Vite dashboard
+🛠️ Step 0: First-Time Setup (Optional)
+If you haven't initialized the data or the AI model yet, run these commands from the root directory:
 
-⚙️ Backend – Node.js / Express API
+Generate Data: python carbon_tracker_agent/utils/data_generator.py
+Train Model: python backend/src/training/train_model.py
+🚀 Running the 4 Core Services
+You will need 4 separate terminal windows open simultaneously:
 
-🤖 AI Agent – Streamlit-based AI assistant
+1. Node.js Backend (Main API)
+This is the central hub for data and frontend requests.
 
-🏗️ Project Architecture
-LN-Carbon-Tracker
-│
-├── frontend/              # React + Vite frontend
-│
-├── backend/               # Node.js / Express API
-│
-├── carbon_tracker_agent/  # Streamlit AI assistant
-│
-└── README.md
-⚙️ Requirements
-
-Make sure you have installed:
-
-Node.js (v18+ recommended)
-
-npm
-
-Python 3.9+
-
-pip
-
-Streamlit
-
-🚀 Running the Project
-
-The system requires 3 separate terminals.
-
-🖥️ Terminal 1 — Frontend (React + Vite)
-
-Navigate to the frontend directory and start the dev server.
-
-cd c:\Users\logis\Desktop\LN-Carbon-Tracker\frontend
-npm install
-npm run dev
-
-Frontend runs at:
-
-http://localhost:5173
-⚙️ Terminal 2 — Backend (Node.js / Express)
-
-Navigate to the backend folder and start the API server.
-
-cd c:\Users\logis\Desktop\LN-Carbon-Tracker\backend
+powershell
+cd backend
 npm install
 node server.js
+Access: http://localhost:3000
+2. FastAPI Service (ML Prediction Engine)
+This handles the heavy lifting for carbon emission calculations using the trained model.
 
-Backend runs at:
+powershell
+# From the root directory
+uvicorn backend.src.api.carbon_api:app --port 8000
+Access: http://localhost:8000
+3. Frontend Dashboard (React + Vite)
+The primary visual interface.
 
-http://localhost:3000
+powershell
+cd frontend
+npm install
+npm run dev
+Access: http://localhost:5173
+4. AI Agent Assistant (Streamlit)
+The interactive conversational agent for analysis.
 
-(Port may vary depending on configuration in server.js)
-
-🤖 Terminal 3 — AI Agent (Streamlit)
-
-Navigate to the AI agent folder and launch the Streamlit app.
-
-cd c:\Users\logis\Desktop\LN-Carbon-Tracker\carbon_tracker_agent
+powershell
+cd carbon_tracker_agent
 pip install -r requirements.txt
 streamlit run app.py
-
-AI Agent runs at:
-
-http://localhost:8502
-🌍 Features
-
-📊 Carbon emissions tracking dashboard
-
-📈 Data visualization of carbon footprint
-
-🤖 AI-powered sustainability assistant
-
-⚡ Real-time interaction between frontend and backend
-
-🌱 Environmental insights and recommendations
-
-🔌 Services Overview
-Service	Tech Stack	Port
-Frontend	React + Vite	5173
-Backend	Node.js + Express	3000
-AI Agent	Python + Streamlit	8502
-🧪 Development Notes
-
-All services must run simultaneously
-
-Ensure the backend API is running before using the frontend
-
-The AI agent communicates with the backend for analysis
-
-📌 Future Improvements
-
-Carbon emission prediction models
-
-User authentication
-
-Database integration
-
-Cloud deployment
-
-Advanced AI analytics
+Access: http://localhost:8501 (or 8502)

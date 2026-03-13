@@ -1,46 +1,194 @@
-Here is the complete guide to running the LN Carbon Tracker project from start to finish.
+# LN Carbon Tracker 🌱
 
-📋 Full Project Execution Guide
-The project consists of multiple services that work together. To run the full ecosystem, you need to start four separate processes. I have created a detailed guide as an artifact for your reference.
+The **LN Carbon Tracker** is a full-stack project designed to monitor, analyze, and predict carbon emissions using machine learning, a web dashboard, and an AI assistant.
 
-running_guide.md
+The system consists of **four main services** working together:
 
-🛠️ Step 0: First-Time Setup (Optional)
-If you haven't initialized the data or the AI model yet, run these commands from the root directory:
+* **Node.js Backend API** – Core data service
+* **FastAPI ML Service** – Carbon emission prediction engine
+* **React + Vite Frontend** – Dashboard UI
+* **Streamlit AI Agent** – Conversational analytics assistant
 
-Generate Data: python carbon_tracker_agent/utils/data_generator.py
-Train Model: python backend/src/training/train_model.py
-🚀 Running the 4 Core Services
-You will need 4 separate terminal windows open simultaneously:
+---
 
-1. Node.js Backend (Main API)
-This is the central hub for data and frontend requests.
+# 🏗️ Project Architecture
 
-powershell
+```
+LN Carbon Tracker
+│
+├── backend                # Node.js API + ML training
+├── frontend               # React + Vite dashboard
+├── carbon_tracker_agent   # AI assistant (Streamlit)
+└── utils                  # Data generator and utilities
+```
+
+---
+
+# ⚙️ Prerequisites
+
+Make sure the following tools are installed:
+
+* **Node.js** (v18+ recommended)
+* **Python** (v3.9+)
+* **npm**
+* **pip**
+* **Git**
+
+---
+
+# 🛠️ Step 1 — Initial Setup (First Time Only)
+
+If this is your **first time running the project**, you need to generate sample data and train the ML model.
+
+Run these commands from the **root directory**.
+
+### Generate Dataset
+
+```bash
+python carbon_tracker_agent/utils/data_generator.py
+```
+
+### Train ML Model
+
+```bash
+python backend/src/training/train_model.py
+```
+
+This will prepare the dataset and train the prediction model used by the FastAPI service.
+
+---
+
+# 🚀 Step 2 — Start All Core Services
+
+The system requires **4 services running simultaneously**.
+
+Open **four separate terminal windows** and run the following commands.
+
+---
+
+# 1️⃣ Node.js Backend (Main API)
+
+This service handles communication between the frontend and backend.
+
+```bash
 cd backend
 npm install
 node server.js
-Access: http://localhost:3000
-2. FastAPI Service (ML Prediction Engine)
-This handles the heavy lifting for carbon emission calculations using the trained model.
+```
 
-powershell
-# From the root directory
+**API URL**
+
+```
+http://localhost:3000
+```
+
+---
+
+# 2️⃣ FastAPI Service (ML Prediction Engine)
+
+Handles **carbon emission prediction** using the trained machine learning model.
+
+Run from the **project root directory**:
+
+```bash
 uvicorn backend.src.api.carbon_api:app --port 8000
-Access: http://localhost:8000
-3. Frontend Dashboard (React + Vite)
-The primary visual interface.
+```
 
-powershell
+**API URL**
+
+```
+http://localhost:8000
+```
+
+---
+
+# 3️⃣ Frontend Dashboard (React + Vite)
+
+Provides the **visual analytics dashboard**.
+
+```bash
 cd frontend
 npm install
 npm run dev
-Access: http://localhost:5173
-4. AI Agent Assistant (Streamlit)
-The interactive conversational agent for analysis.
+```
 
-powershell
+**Frontend URL**
+
+```
+http://localhost:5173
+```
+
+---
+
+# 4️⃣ AI Agent Assistant (Streamlit)
+
+An **interactive AI assistant** for analyzing carbon data.
+
+```bash
 cd carbon_tracker_agent
 pip install -r requirements.txt
 streamlit run app.py
-Access: http://localhost:8501 (or 8502)
+```
+
+**AI Assistant URL**
+
+```
+http://localhost:8501
+```
+
+*(If the port is busy, Streamlit may automatically switch to `8502`.)*
+
+---
+
+# 📊 System Workflow
+
+1. **Data is generated** using the data generator script.
+2. **ML model is trained** using the training pipeline.
+3. **FastAPI service** loads the trained model for predictions.
+4. **Node.js backend** manages API requests.
+5. **React frontend** displays analytics dashboards.
+6. **Streamlit AI Agent** allows conversational insights.
+
+---
+
+# 🧪 Development Tips
+
+* Ensure **all four services are running simultaneously**.
+* If the frontend cannot fetch data, confirm:
+
+  * Backend is running on **port 3000**
+  * FastAPI is running on **port 8000**
+* Restart services after major code changes.
+
+---
+
+# 🛑 Common Issues
+
+### Port Already in Use
+
+Kill the existing process or change the port.
+
+### Missing Dependencies
+
+Reinstall dependencies:
+
+```bash
+npm install
+pip install -r requirements.txt
+```
+
+### Model Not Found
+
+Run the training step again:
+
+```bash
+python backend/src/training/train_model.py
+```
+
+---
+
+# 👨‍💻 Author
+
+Developed as part of the **LN Carbon Tracker Project** for carbon emission monitoring and AI-driven sustainability insights.
+
+---

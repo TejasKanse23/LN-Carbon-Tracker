@@ -1,21 +1,44 @@
 import pandas as pd
 import joblib
+import numpy as np
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_absolute_error, r2_score
+from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error
 
-# Load data
-df = pd.read_excel("data/raw/5000 lanes shipments.xlsx")
+
+# Load Dataset
+df = pd.read_csv("data/raw/carbon_tracker_shipments.csv")
+
+# Feature Engineering
+df["ton_km"] = df["distance_km"] * df["weight_ton"]
 
 # Target
 y = df["estimated_emissions_kg_co2e"]
 
-# Features
-X = df.drop(columns=["estimated_emissions_kg_co2e", "shipment_id", "date"])
+feature_cols = [
+    "origin",
+    "destination",
+    "lane",
+    "distance_km",
+    "vehicle_type",
+    "fuel_type",
+    "weight_ton",
+    "utilization_percent",
+    "average_speed_kmph",
+    "transit_time_hrs",
+    "fuel_consumption_L",
+    "co2_per_ton_km",
+    "traffic congestion",
+    "Age of vehicle",
+    "Engine size ( Capacity of liters of fuel)",
+    "ton_km"
+]
+
+X = df[feature_cols]
 
 categorical_cols = [
     "origin",
@@ -26,15 +49,24 @@ categorical_cols = [
     "traffic congestion"
 ]
 
-numeric_cols = [c for c in X.columns if c not in categorical_cols]
+numeric_cols = [
+    "distance_km",
+    "weight_ton",
+    "utilization_percent",
+    "average_speed_kmph",
+    "transit_time_hrs",
+    "fuel_consumption_L",
+    "co2_per_ton_km",
+    "Age of vehicle",
+    "Engine size ( Capacity of liters of fuel)",
+    "ton_km"
+]
 
-# Preprocessing
 preprocessor = ColumnTransformer([
     ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_cols),
     ("num", "passthrough", numeric_cols)
 ])
 
-# Model
 model = RandomForestRegressor(
     n_estimators=300,
     max_depth=None,
@@ -47,21 +79,27 @@ pipeline = Pipeline([
     ("model", model)
 ])
 
-# Train/Test split
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
 )
 
-# Train
 pipeline.fit(X_train, y_train)
 
-# Evaluate
 pred = pipeline.predict(X_test)
 
-print("MAE:", mean_absolute_error(y_test, pred))
-print("R2:", r2_score(y_test, pred))
+mae = mean_absolute_error(y_test, pred)
+rmse = np.sqrt(mean_squared_error(y_test, pred))
+r2 = r2_score(y_test, pred)
 
-# Save model
-joblib.dump(pipeline, "carbon_emission_model.pkl")
+print("\nModel Evaluation")
+print("----------------------------")
+print("MAE:", mae)
+print("RMSE:", rmse)
+print("R2 Score:", r2)
 
-print("Model saved as carbon_emission_model.pkl")
+joblib.dump(pipeline, "models/carbon_emission_model2.pkl")
+
+print("\nModel saved to models/carbon_emission_model2.pkl")

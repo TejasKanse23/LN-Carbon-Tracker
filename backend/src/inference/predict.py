@@ -7,8 +7,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 MODEL_PATH = os.path.join(BASE_DIR, "models", "carbon_emission_model.pkl")
 
-# load model
-model = joblib.load("models/carbon_emission_model2.pkl")
+# Load model once
+model = joblib.load(MODEL_PATH)
 
 def predict(data: dict):
 

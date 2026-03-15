@@ -1,29 +1,84 @@
-import axios from '../Axios/Axios';
+import axiosInstance from '../Axios/Axios';
 
-export const calculateCarbonEmission = async (distance, vehicleType) => {
-  try {
+/**
+ * Fetch the main dashboard data (KPIs, recent shipments, lane analytics).
+ */
+export const fetchDashboard = async () => {
+  const { data } = await axiosInstance.get('/api/carbon/dashboard');
+  return data;
+};
 
-    await new Promise(resolve => setTimeout(resolve, 800));
+/**
+ * Calculate CO₂ emissions for a single shipment.
+ * @param {number} distanceKm
+ * @param {number} weightKg
+ * @param {string} vehicleType
+ * @param {number} loadFactor
+ */
+export const calculateEmission = async (distanceKm, weightKg, vehicleType, loadFactor = 0.75) => {
+  const { data } = await axiosInstance.post('/api/carbon/calculate', {
+    distanceKm,
+    weightKg,
+    vehicleType,
+    loadFactor,
+  });
+  return data;
+};
 
-    const EMISSION_FACTORS = {
-      "truck": 0.161,
-      "van": 0.120,
-      "car": 0.089
-    };
-    
-    if (!EMISSION_FACTORS[vehicleType]) {
-      throw new Error("Invalid vehicle type");
-    }
+/**
+ * Get optimization suggestions for a shipment route.
+ * @param {number} distanceKm
+ * @param {number} weightKg
+ * @param {string} vehicleType
+ * @param {number} loadFactor
+ */
+export const optimizeRoute = async (distanceKm, weightKg, vehicleType, loadFactor = 0.75) => {
+  const { data } = await axiosInstance.post('/api/carbon/optimize', {
+    distanceKm,
+    weightKg,
+    vehicleType,
+    loadFactor,
+  });
+  return data;
+};
 
-    const mockEmission = Number(distance) * EMISSION_FACTORS[vehicleType];
+/**
+ * Health check for the backend engine.
+ */
+export const checkHealth = async () => {
+  const { data } = await axiosInstance.get('/api/health');
+  return data;
+};
 
-    return {
-      distance: Number(distance),
-      vehicle_type: vehicleType,
-      carbon_emission: mockEmission
-    };
-  } catch (error) {
-    console.error("Failed to calculate carbon emission via axios", error);
-    throw error;
-  }
+/**
+ * Generate Lane Carbon Report
+ * @param {string} origin
+ * @param {string} destination
+ */
+export const generateLaneReport = async (origin, destination) => {
+  const { data } = await axiosInstance.post('/api/carbon/report/generate', {
+    origin,
+    destination
+  });
+  return data;
+};
+
+export const getDownloadReportUrl = (fileName) => {
+  // Use the API server's origin if we are connecting directly, else use relative for Vite proxy
+  return `/api/carbon/report/download?file=${encodeURIComponent(fileName)}`;
+};
+
+/**
+ * Generate Lane Forecast
+ * @param {string} origin
+ * @param {string} destination
+ * @param {number} horizon format: months
+ */
+export const generateForecast = async (origin, destination, horizon = 6) => {
+  const { data } = await axiosInstance.post('/api/carbon/forecast/generate', {
+    origin,
+    destination,
+    horizon
+  });
+  return data;
 };

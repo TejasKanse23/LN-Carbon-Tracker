@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Calculator } from 'lucide-react';
-import axios from 'axios';
+import { calculateEmission } from '../services/api';
 
 const CarbonCalculator = () => {
     const [distance, setDistance] = useState('');
@@ -14,12 +14,12 @@ const CarbonCalculator = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const { data } = await axios.post('http://localhost:5000/api/carbon/calculate', {
-                distanceKm: distance,
-                weightKg: weight,
-                vehicleType: vehicle,
-                loadFactor: loadFactor
-            });
+            const data = await calculateEmission(
+                parseFloat(distance),
+                parseFloat(weight),
+                vehicle,
+                loadFactor
+            );
             setResult(data);
         } catch (error) {
             console.error("Calculation failed", error);

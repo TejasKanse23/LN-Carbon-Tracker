@@ -1,0 +1,4 @@
+backend/
+carbon_tracker_agent/
+.venv/
+node_modules/

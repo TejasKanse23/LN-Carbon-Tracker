@@ -44,3 +44,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+# Environment Variables — never commit secrets!
+.env
+.env.*
+!.env.example

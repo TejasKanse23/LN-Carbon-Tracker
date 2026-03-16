@@ -1,11 +1,24 @@
 services:
+  # ── 1. Node.js Backend (Main API for the Dashboard) ──────────────────────────
   - type: web
-    name: ln-carbon-tracker-api
+    name: ln-carbon-tracker-node
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_VERSION
+        value: 18.0.0
+      - key: PORT
+        value: 5000
+
+  # ── 2. FastAPI ML Backend (Emission Prediction) ──────────────────────────────
+  - type: web
+    name: ln-carbon-tracker-fastapi
     runtime: python
-    rootDir: .
-    buildCommand: pip install -r backend/requirements.txt
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
     startCommand: uvicorn src.api.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
-    rootDir: backend

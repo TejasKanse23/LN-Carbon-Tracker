@@ -1,7 +1,11 @@
+import os
 import pandas as pd
 from datetime import datetime
 
-dataset = pd.read_csv("data/raw/carbon_tracker_shipments.csv")
+# Resolve path relative to this file so it works on Vercel & locally
+_BACKEND_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_DATA_PATH = os.path.join(_BACKEND_DIR, "data", "raw", "carbon_tracker_shipments.csv")
+dataset = pd.read_csv(_DATA_PATH)
 
 engine_size_median = dataset["Engine size ( Capacity of liters of fuel)"].median()
 weight_median = dataset["weight_ton"].median()

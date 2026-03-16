@@ -1,7 +1,9 @@
 import Axios from "axios";
 
+// In production (Vercel), VITE_API_URL points to the Render backend.
+// Locally, it falls back to "/" so the Vite dev proxy continues to work.
 const axiosInstance = Axios.create({
-  baseURL: "/",
+  baseURL: import.meta.env.VITE_API_URL || "/",
   headers: {
     "Content-Type": "application/json",
     "Cache-Control": "no-store, max-age=0",

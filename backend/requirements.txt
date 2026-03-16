@@ -1,0 +1,10 @@
+# FastAPI ML Backend — Render deployment
+fastapi
+uvicorn
+pandas
+numpy
+scikit-learn
+joblib
+geopy
+openpyxl
+requests

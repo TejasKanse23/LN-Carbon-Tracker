@@ -43,6 +43,7 @@ NAV_PAGES = [
     ("🔮", "AI Forecast"),
     ("📦", "Consolidation Agent"),
     ("📖", "Methodology"),
+    ("🚗", "Predict Emission"),
 ]
 
 # ─── Brand header bar ──────────────────────────────────────────────────────
@@ -103,3 +104,6 @@ elif page == "Consolidation Agent":
 elif page == "Methodology":
     from views import methodology
     methodology.show()
+elif page == "Predict Emission":
+    from views import predict_emission
+    predict_emission.show()
